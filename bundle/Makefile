@@ -57,6 +57,5 @@ clean:
 	@rm -rf build_bundle
 
 load-bundle: helloworld-bundle
-	adb shell rm -f /usr/share/data/adsp/libexample_interface_skel.so /usr/share/data/adsp/libhelloworld.so /home/linaro/helloworld*
-	cd build_bundle && make helloworld-load
-
+	adb shell rm -f /usr/share/data/adsp/libesc_interface_skel.so /usr/share/data/adsp/libkm_test_esc.so /home/linaro/km_test_esc*
+	cd build_bundle && make km_test_esc-load

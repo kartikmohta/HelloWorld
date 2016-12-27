@@ -35,18 +35,23 @@ set(version_major 0)
 set(version_minor 1)
 set(version_patch 0)
 set(version "${version_major}.${version_minor}.${version_patch}")
-set(package-contact "charlebm@gmail.com")
+set(package-contact "kartikmohta@gmail.com")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../cmake_hexagon")
+include(qurt_flags)
 include(bundle)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -g -std=gnu99 -fno-strict-aliasing -fdata-sections -fno-zero-initialized-in-bss -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable -Wno-gnu-array-member-paren-init -Wno-cast-align -Wno-missing-braces -Wno-strict-aliasing") 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -std=c99 -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -g -std=c++11 -Wall")
 
-QURT_BUNDLE(APP_NAME helloworld
-	IDL_FILE ../common/example_interface.idl
-	APPS_SOURCES ../apps_proc/helloworld.c
-	DSP_SOURCES ../adsp_proc/helloworld_dsp.c
+include_directories($ENV{FC_ADDON}/flight_controller/hexagon/inc)
+
+QURT_BUNDLE(APP_NAME km_test_esc
+	IDL_FILE ../common/esc_interface.idl
+	APPS_SOURCES ../apps_proc/test_esc.c
+	DSP_SOURCES ../adsp_proc/test_esc_dsp.cpp ../adsp_proc/qurt_stubs.cpp
 	APPS_COMPILER ${ARM-LINUX-GNUEABIHF-GCC}
 	)
+target_link_libraries(km_test_esc "$ENV{FC_ADDON}/flight_controller/hexagon/libs/libuart_esc.so")
 
 # vim: set noet fenc=utf-8 ff=unix ft=cmake :

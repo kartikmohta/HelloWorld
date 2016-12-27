@@ -1,0 +1,9 @@
+#pragma once
+
+#include "AEEStdDef.idl"
+
+interface esc_interface{
+    int32 init_esc(in uint32 model);
+    int32 print_data();
+    int16 set_rpm(in int16 rpm);
+};

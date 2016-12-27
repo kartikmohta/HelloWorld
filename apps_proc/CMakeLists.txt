@@ -35,18 +35,18 @@ set(version_major 0)
 set(version_minor 1)
 set(version_patch 0)
 set(version "${version_major}.${version_minor}.${version_patch}")
-set(package-contact "charlebm@gmail.com")
+set(package-contact "kartikmohta@gmail.com")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../cmake_hexagon")
 include(linux_app)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -g -std=gnu99 -fno-strict-aliasing -fdata-sections -fno-zero-initialized-in-bss -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable -Wno-gnu-array-member-paren-init -Wno-cast-align -Wno-missing-braces -Wno-strict-aliasing") 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -std=gnu99 -Wall")
 
-FASTRPC_STUB_GEN(../common/example_interface.idl)
+FASTRPC_STUB_GEN(../common/esc_interface.idl)
 
-LINUX_APP(APP_NAME helloworld
-	IDL_NAME example_interface
-	SOURCES helloworld.c
+LINUX_APP(APP_NAME km_test_esc
+	IDL_NAME esc_interface
+	SOURCES test_esc.c
 	)
 
 # vim: set noet fenc=utf-8 ff=unix ft=cmake :

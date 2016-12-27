@@ -30,16 +30,16 @@
 ############################################################################
 
 # This Makefile shows two examples of how to build a QuRT application.
-# helloworld-bundle builds both the apps proc and dsp sides of the app from
+# km_test_esc-bundle builds both the apps proc and dsp sides of the app from
 # one CMakeLists.txt file.
 #
 # An alternative wat to build the app is to build the adsp lib and apps proc
 # portions separately.
-# helloworld builds just the apps proc portion and
-# libhelloworld just builds the adsp portion.
+# km_test_esc builds just the apps proc portion and
+# libkm_test_esc just builds the adsp portion.
 
 .PHONY all:
-all: helloworld libhelloworld
+all: km_test_esc libkm_test_esc
 
 GETTING_STARTED_MSG="See https://github.com/ATLFlight/ATLFlightDocs/blob/master/GettingStarted.md"
 
@@ -51,18 +51,18 @@ QC_SOC_TARGET?="APQ8074"
 	@if [ "${HEXAGON_TOOLS_ROOT}" = "" ]; then echo "HEXAGON_TOOLS_ROOT not set"; echo ${GETTING_STARTED_MSG}; false; fi
 
 
-# This target builds only helloworld for apps proc
-.PHONY helloworld:
-helloworld: cmake_hexagon
+# This target builds only km_test_esc for apps proc
+.PHONY km_test_esc:
+km_test_esc: cmake_hexagon
 	@mkdir -p build_apps && cd build_apps && cmake -Wno-dev ../apps_proc -DQC_SOC_TARGET=${QC_SOC_TARGET} -DCMAKE_TOOLCHAIN_FILE=../cmake_hexagon/toolchain/Toolchain-arm-linux-gnueabihf.cmake
 	@cd build_apps && make
-	
-# This target builds only libhelloworld.so and libhelloworld_skel.so for adsp proc
-.PHONY libhelloworld:
-libhelloworld: cmake_hexagon
+
+# This target builds only libkm_test_esc.so and libkm_test_esc_skel.so for adsp proc
+.PHONY libkm_test_esc:
+libkm_test_esc: cmake_hexagon
 	@mkdir -p build_adsp && cd build_adsp && cmake -Wno-dev ../adsp_proc -DQC_SOC_TARGET=${QC_SOC_TARGET} -DCMAKE_TOOLCHAIN_FILE=../cmake_hexagon/toolchain/Toolchain-qurt.cmake
 	@cd build_adsp && make
-	
+
 .PHONY submodule:
 submodule: cmake_hexagon
 
@@ -72,8 +72,7 @@ cmake_hexagon:
 clean:
 	@rm -rf build_adsp build_apps
 
-load: libhelloworld helloworld
-	adb shell rm -f /usr/share/data/adsp/libexample_interface_skel.so /usr/share/data/adsp/libhelloworld.so /home/linaro/helloworld*
-	cd build_adsp && make libhelloworld-load
-	cd build_apps && make helloworld-load
-
+load: libkm_test_esc km_test_esc
+	adb shell rm -f /usr/share/data/adsp/libesc_interface_skel.so /usr/share/data/adsp/libkm_test_esc.so /home/linaro/km_test_esc*
+	cd build_adsp && make libkm_test_esc-load
+	cd build_apps && make km_test_esc-load

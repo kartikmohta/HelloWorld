@@ -1,9 +1,6 @@
 #include "dsp_log.h"
-extern "C"
-{
 #include "esc_interface.h"
 #include <uart_esc.h>
-}
 
 UartEsc *esc;
 
